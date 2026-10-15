@@ -17,4 +17,48 @@ class GameController extends Controller
 
         return view('games.index', compact('game'));
     }
+
+    public function show(string $id)
+    {
+        return view('games.show', ['name' => 'Boo']);
+    }
+
+    public function create()
+    {
+        //Een leeg form laten zien
+        return view('games.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|min:3',
+            'description' => 'required',
+            'genre' => 'required|min:3'
+        ]);
+
+        $game = new Game();
+        $game->title = $request->input('name');
+        $game->description = $request->input('description');
+        $game->genre = $request->input('genre');
+        $game->image = 'temp';
+
+        $game->save();
+
+        return redirect()->route('games.index');
+
+        //info uit form halen / Request $request /
+        //checken op SQL-injections / hoeft niet? /
+        //validatie op de data
+        //error handling
+        //info in database zetten
+        //redirect naar games.index
+    }
+
+    public function destroy(Game $game)
+    {
+        $game->delete();
+        return redirect()->route('games.index');
+    }
+
 }

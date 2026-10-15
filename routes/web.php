@@ -8,7 +8,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/games', [\App\Http\Controllers\GameController::class, 'index']);
+Route::get('/games', [\App\Http\Controllers\GameController::class, 'index'])->name('games.index');
+Route::post('/games', [GameController::class, 'store'])->name('game.store');
+
+Route::get('/games/create', [GameController::class, 'create'])->name('games.create');
+
+Route::delete('games/{game}', [GameController::class, 'destroy'])->name('games.destroy');
+
+Route::get('/games/{id}', [GameController::class, 'show'])->name('games.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
