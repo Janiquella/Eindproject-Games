@@ -16,7 +16,14 @@ return new class extends Migration {
             $table->text('description');
             $table->string('genre', 100);
             $table->string('image');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
         });
     }
 
