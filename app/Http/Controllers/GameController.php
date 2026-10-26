@@ -20,7 +20,7 @@ class GameController extends Controller
 
     public function show(string $id)
     {
-        return view('games.show', ['name' => 'Boo']);
+        return view('games.show/{$id}', ['name' => 'Boo']);
     }
 
     public function create()
