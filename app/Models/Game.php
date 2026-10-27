@@ -8,7 +8,7 @@ class Game extends Model
 {
     public function reviews()
     {
-        return $this->hasMany('App\Review');
+        return $this->hasMany(Review::class);
     }
 
     /**
@@ -16,6 +16,6 @@ class Game extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 }

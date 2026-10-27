@@ -17,8 +17,10 @@
 
 <x-layout title="Games">
     <h1>Games page</h1>
-    <div>
-        {{ $game->title }}
-        {{ $game->genre }}
+    <div class="card bottom-3">
+        @foreach($games as $game)
+            <div>{{$game->title}} || {{$game->genre}}</div>
+            <a href="{{route('games.show', $game)}}">Details</a>
+        @endforeach
     </div>
 </x-layout>

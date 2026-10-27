@@ -2,6 +2,7 @@
     <h1>Create new Game</h1>
 
     <form action="{{ route('game.store') }}" method="post">
+        @csrf
         <div>
             <label for="name">Title</label>
             <input type="text" id="name" name="name" value="{{ old('name') }}"/>
@@ -26,6 +27,7 @@
             @enderror
         </div>
 
-        <input type="submit" value="Save"/>
+        {{--        <input type="submit" value="Save"/>--}}
+        <button type="submit">Add Game</button>
     </form>
 </x-layout>

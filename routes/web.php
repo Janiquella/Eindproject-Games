@@ -15,7 +15,10 @@ Route::get('/games/create', [GameController::class, 'create'])->name('games.crea
 
 Route::delete('games/{game}', [GameController::class, 'destroy'])->name('games.destroy');
 
-Route::get('/games/{id}', [GameController::class, 'show'])->name('games.show');
+Route::get('/games/{game}', [GameController::class, 'show'])->name('games.show');
+
+Route::get('/games/{game}/edit', [GameController::class, 'edit'])->name('games.edit');
+Route::put('/games/{game}/update', [GameController::class, 'update'])->name('games.update');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

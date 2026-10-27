@@ -10,17 +10,12 @@ class GameController extends Controller
     //
     public function index()
     {
-        $game = new Game();
-
-        $game->title = 'Stardew Valey';
-        $game->genre = 'Indie';
-
-        return view('games.index', compact('game'));
+        return view('games.index', ['games' => Game::all()]);
     }
 
-    public function show(string $id)
+    public function show(Game $game)
     {
-        return view('games.show/{$id}', ['name' => 'Boo']);
+        return view('games.show', compact('game'));
     }
 
     public function create()
@@ -58,7 +53,29 @@ class GameController extends Controller
     public function destroy(Game $game)
     {
         $game->delete();
-        return redirect()->route('games.index');
+        return redirect('games');
+    }
+
+    public function edit(Game $game)
+    {
+        return view('games.edit', compact('game'));
+    }
+
+    public function update(Request $request, Game $game)
+    {
+        $validated = $request->validate([
+            'name' => 'required|min:3',
+            'description' => 'required',
+            'genre' => 'required|min:3'
+        ]);
+
+        $game->title = $validated['name'];
+        $game->description = $validated['description'];
+        $game->genre = $validated['genre'];
+
+        $game->save();
+
+        return redirect()->route('games.show', $game);
     }
 
 }
