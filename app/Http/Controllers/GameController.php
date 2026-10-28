@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
+//        $search = $request->input('search');
         return view('games.index', ['games' => Game::all()]);
     }
 
@@ -21,7 +23,8 @@ class GameController extends Controller
     public function create()
     {
         //Een leeg form laten zien
-        return view('games.create');
+        $genres = Genre::all();
+        return view('games.create', compact('genres'));
     }
 
     public function store(Request $request)
@@ -29,13 +32,14 @@ class GameController extends Controller
         $request->validate([
             'name' => 'required|min:3',
             'description' => 'required',
-            'genre' => 'required|min:3'
+            'genre' => 'required'
         ]);
 
         $game = new Game();
         $game->title = $request->input('name');
         $game->description = $request->input('description');
-        $game->genre = $request->input('genre');
+        $game->genre_id = $request->input('genre');
+        $game->user_id = auth()->id();
         $game->image = 'temp';
 
         $game->save();
@@ -78,4 +82,12 @@ class GameController extends Controller
         return redirect()->route('games.show', $game);
     }
 
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $games = Game::where('title', 'LIKE', "%{$search}%")->get();
+        return view('games.index', compact('games'));
+    }
+
 }
+

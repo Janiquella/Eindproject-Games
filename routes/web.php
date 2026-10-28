@@ -8,6 +8,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/games/search', [GameController::class, 'search'])->name('games.search');
 Route::get('/games', [\App\Http\Controllers\GameController::class, 'index'])->name('games.index');
 Route::post('/games', [GameController::class, 'store'])->name('game.store');
 
@@ -19,6 +20,7 @@ Route::get('/games/{game}', [GameController::class, 'show'])->name('games.show')
 
 Route::get('/games/{game}/edit', [GameController::class, 'edit'])->name('games.edit');
 Route::put('/games/{game}/update', [GameController::class, 'update'])->name('games.update');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('title', 100);
             $table->text('description');
-            $table->string('genre', 100);
+            $table->foreignIdFor(App\Models\Genre::class)->constrained()->nullOnDelete();
             $table->string('image');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
