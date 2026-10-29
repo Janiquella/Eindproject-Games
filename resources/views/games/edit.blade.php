@@ -14,7 +14,8 @@
 
         <div>
             <label for="description">Description</label>
-            <input type="text" id="description" name="description" value="{{ $game->description }}"/>
+            <textarea type="text" id="description"
+                      name="description">{{ old('description', $game->description) }}</textarea>
             @error('description')
             <span class="text-red-600">{{ $message }}</span>
             @enderror
@@ -22,7 +23,13 @@
 
         <div>
             <label for="genre">Genre</label>
-            <input type="text" id="genre" name="genre" value="{{ $game->genre }}"/>
+            {{--            <input type="text" id="genre" name="genre" value="{{ $game->genre_id }}"/>--}}
+            <select name="genre" id="genre">
+                @foreach($genres as $genre)
+                    <option
+                        value="{{ $genre->id }}" {{ old('genre', $game->genre_id) == $genre->id ? 'selected' : ''}}>{{ $genre->name }}</option>
+                @endforeach
+            </select>
             @error('genre')
             <span class="text-red-600">{{ $message }}</span>
             @enderror

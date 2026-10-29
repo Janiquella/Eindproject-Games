@@ -11,6 +11,10 @@
 <x-layout title="Games">
     <h1>Games page</h1>
 
+    <section>
+        <b>Filter on genre:</b>
+        
+    </section>
 
     <form action="{{route('games.search')}}" method="GET">
         <input type="text" name="search" id="search" value="{{request('search')}}" class="search-bar"
@@ -23,6 +27,7 @@
     @else
         @foreach($games as $game)
             <section class="card bottom-3">
+                <img src="{{asset('storage/' . $game->image)}}">
                 <div>{{$game->title}} || {{$game->genre->name}}</div>
                 <a href="{{route('games.show', $game)}}">Detail</a>
             </section>

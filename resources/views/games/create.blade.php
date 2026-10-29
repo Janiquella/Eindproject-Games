@@ -1,7 +1,7 @@
 <x-layout title="create">
     <h1>Create new Game</h1>
 
-    <form action="{{ route('game.store') }}" method="post">
+    <form action="{{ route('game.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div>
             <label for="name">Title</label>
@@ -28,6 +28,15 @@
                 @endforeach
             </select>
             @error('genre')
+            <span class="text-red-600">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div>
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image">
+            <img src="{{ asset('uploads/images/'.$game->image) }}" alt="">
+            @error('image')
             <span class="text-red-600">{{ $message }}</span>
             @enderror
         </div>

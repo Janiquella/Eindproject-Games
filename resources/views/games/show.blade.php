@@ -2,8 +2,8 @@
 <x-layout title="{{$game->title}}">
 
     <p>
-        {{$game->title}}
-        {{$game->genre}}
+        {{$game->title}} ||
+        {{$game->genre->name}} ||
         {{$game->description}}
     </p>
 
