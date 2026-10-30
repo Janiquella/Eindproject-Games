@@ -13,7 +13,7 @@
 
     <section>
         <b>Filter on genre:</b>
-        
+
     </section>
 
     <form action="{{route('games.search')}}" method="GET">
@@ -27,17 +27,10 @@
     @else
         @foreach($games as $game)
             <section class="card bottom-3">
-                <img src="{{asset('storage/' . $game->image)}}">
+                <img src="{{asset('storage/' . $game->image)}}" class="w-32 h-auto">
                 <div>{{$game->title}} || {{$game->genre->name}}</div>
                 <a href="{{route('games.show', $game)}}">Detail</a>
             </section>
         @endforeach
     @endif
-
-    {{--    <div class="card bottom-3">--}}
-    {{--        @foreach($games as $game)--}}
-    {{--                        <div>{{$game->title}} || {{$game->genre->name}}</div>--}}
-    {{--            <a href="{{route('games.show', $game)}}">Details</a>--}}
-    {{--        @endforeach--}}
-    {{--    </div>--}}
 </x-layout>

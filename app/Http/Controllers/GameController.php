@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class GameController extends Controller
 {
@@ -27,7 +28,7 @@ class GameController extends Controller
         return view('games.create', compact('genres'));
     }
 
-    public function store(Request $request, $game)
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|min:3',
@@ -40,7 +41,6 @@ class GameController extends Controller
         $game->description = $request->input('description');
         $game->genre_id = $request->input('genre');
         $game->user_id = auth()->id();
-//        $game->image = 'temp';
         $image = $request->file('image')->storePublicly('images', 'public');
         $game->image = $image; //to store the link to the image in the DB
 
@@ -73,14 +73,21 @@ class GameController extends Controller
         $validated = $request->validate([
             'name' => 'required|min:3',
             'description' => 'required',
-            'genre' => 'required'
+            'genre' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $game->title = $validated['name'];
         $game->description = $validated['description'];
         $game->genre_id = $validated['genre'];
-        $image = $request->file('image')->storePublicly('images', 'public');
-        $game->image = $image; //to store the link to the image in the DB
+
+
+        if ($request->hasFile('image')) {
+            if ($game->image && Storage::disk('public')->exists($game->image)) {
+                Storage::disk('public')->delete($game->image);
+            }
+            $game->image = $request->file('image')->store('images', 'public');
+        }
 
         $game->save();
 

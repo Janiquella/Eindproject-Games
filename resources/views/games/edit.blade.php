@@ -1,7 +1,7 @@
 <x-layout title="edit">
     <h1>Edit the Game</h1>
 
-    <form action="{{ route('games.update', $game) }}" method="post">
+    <form action="{{ route('games.update', $game) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div>
@@ -31,6 +31,17 @@
                 @endforeach
             </select>
             @error('genre')
+            <span class="text-red-600">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div>
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image">
+            @if($game->image)
+                <img src="{{ asset('storage/' . $game->image) }}" alt="Current image" class="w-32 h-auto mt-2">
+            @endif
+            @error('image')
             <span class="text-red-600">{{ $message }}</span>
             @enderror
         </div>

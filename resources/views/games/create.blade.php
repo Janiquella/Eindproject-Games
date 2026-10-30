@@ -35,7 +35,6 @@
         <div>
             <label for="image">Image</label>
             <input type="file" name="image" id="image">
-            <img src="{{ asset('uploads/images/'.$game->image) }}" alt="">
             @error('image')
             <span class="text-red-600">{{ $message }}</span>
             @enderror
