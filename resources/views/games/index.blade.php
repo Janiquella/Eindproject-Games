@@ -11,12 +11,14 @@
 <x-layout title="Games">
     <h1>Games page</h1>
 
-    <section>
-        <b>Filter on genre:</b>
-
-    </section>
-
     <form action="{{route('games.search')}}" method="GET">
+        <select name="genre" id="genre">
+            <option value="">All genres</option>
+            @foreach($genres as $genre)
+                <option value="{{ $genre->id }}"@selected(request('genre') == $genre->id)>{{ $genre->name }}</option>
+            @endforeach
+        </select>
+
         <input type="text" name="search" id="search" value="{{request('search')}}" class="search-bar"
                placeholder="search game">
         <button type="submit" class="p-2 mt-3 text-black bg-green-300 rounded">Search</button>

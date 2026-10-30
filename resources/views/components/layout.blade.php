@@ -28,7 +28,9 @@
     <nav class="flex items-center justify-end gap-4">
 
         <a href="/games" class="no-underline p-2">Games</a>
-        <a href="/games/create">Create</a>
+        @auth
+            <a href="/games/create">Create</a>
+        @endauth
 
         @auth
             <a
