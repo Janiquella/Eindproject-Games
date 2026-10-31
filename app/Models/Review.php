@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
+    protected $fillable = ['user_id', 'game_id', 'review', 'rating'];
+
     public function game()
     {
-        return $this->belongsTo('App\Game');
+        return $this->belongsTo(Game::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 }

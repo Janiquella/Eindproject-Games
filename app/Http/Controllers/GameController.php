@@ -19,6 +19,7 @@ class GameController extends Controller
 
     public function show(Game $game)
     {
+        $game->load('reviews.user');
         return view('games.show', compact('game'));
     }
 

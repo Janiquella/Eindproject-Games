@@ -32,11 +32,11 @@ class User extends Authenticatable
 
     public function games()
     {
-        return $this->hasMany('App\Game');
+        return $this->hasMany(Game::class);
     }
 
     public function reviews()
     {
-        return $this->hasMany('App\Review');
+        return $this->hasMany(Review::class);
     }
 }

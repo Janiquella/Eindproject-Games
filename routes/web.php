@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,7 +21,10 @@ Route::get('/games/{game}', [GameController::class, 'show'])->name('games.show')
 
 Route::get('/games/{game}/edit', [GameController::class, 'edit'])->name('games.edit');
 Route::put('/games/{game}/update', [GameController::class, 'update'])->name('games.update');
-
+Route::middleware('auth')->group(function () {
+    Route::post('/games/{game}/reviews', [\App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
+});
+Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
