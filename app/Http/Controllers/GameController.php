@@ -13,8 +13,13 @@ class GameController extends Controller
     //
     public function index()
     {
-        $genres = Genre::all();
-        return view('games.index', ['games' => Game::all(), 'genres' => $genres]);
+        $query = Game::query();
+
+        if (!auth()->check() || auth()->user()->role !== 1) {
+            $query->where('status', false);
+        }
+
+        return view('games.index', ['games' => $query->with('genre')->get(), 'genres' => Genre::all()]);
     }
 
     public function show(Game $game)
@@ -45,6 +50,7 @@ class GameController extends Controller
         $game->user_id = auth()->id();
         $image = $request->file('image')->storePublicly('images', 'public');
         $game->image = $image; //to store the link to the image in the DB
+        $game->status = false;
 
         $game->save();
 
@@ -102,28 +108,6 @@ class GameController extends Controller
         return redirect()->route('games.show', $game);
     }
 
-//    public function search(Request $request)
-//    {
-//        $filters = $request->validate([
-//            'search' => ['nullable', 'string'],
-//            'genre' => ['nullable', 'integer', 'exists:genres,id']
-//        ]);
-//
-//        $query = Game::query()->with(['genre']);
-////        $query->where('hidden', false);
-//        $query->when($filters['search'] ?? null, function ($query, $search) {
-//            $query->where('name', 'like', "%{$search}%");
-//        });
-//        $query->when($filters['genre'] ?? null, function ($query, $genre) {
-//            $query->where('genre_id', $genre);
-//        });
-//
-//
-//        $search = $request->input('search');
-//        $games = Game::where('title', 'LIKE', "%{$search}%")->get();
-//        return view('games.index', ['games' => $games, 'genres' => Genre::all()]);
-//    }
-
     public function search(Request $request)
     {
         $filters = $request->validate([
@@ -133,6 +117,10 @@ class GameController extends Controller
 
         $query = Game::query()->with('genre');
 
+        if (!auth()->check() || auth()->user()->role !== 1) {
+            $query->where('status', false);
+        }
+
         if (!empty($filters['search'])) {
             $query->where('title', 'like', '%' . $filters['search'] . '%');
         }
@@ -141,12 +129,27 @@ class GameController extends Controller
             $query->where('genre_id', $filters['genre']);
         }
 
+
         $games = $query->get();
 
         return view('games.index', [
             'games' => $games,
             'genres' => Genre::all(),
         ]);
+    }
+
+    public function hide(Game $game)
+    {
+//        if (!auth()->check()) {
+//            abort(403);
+//        }
+        if (auth()->user()->role !== 1) {
+            abort(403);
+        }
+        $game->status = !$game->status;
+        $game->save();
+
+        return redirect()->route('games.index');
     }
 
 }

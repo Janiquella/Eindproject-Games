@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/games/{game}/reviews', [\App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
+Route::patch('/games/{game}/hide', [GameController::class, 'hide'])->name('games.status');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

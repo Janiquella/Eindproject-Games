@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignIdFor(App\Models\Genre::class)->constrained()->nullOnDelete();
             $table->string('image');
             $table->unsignedBigInteger('user_id');
+            $table->boolean('status');
             $table->timestamps();
 
             $table->foreign('user_id')
