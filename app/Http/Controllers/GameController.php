@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\Genre;
+use App\Models\Review;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +31,7 @@ class GameController extends Controller
 
     public function create()
     {
-        //Een leeg form laten zien
+        $this->authorize('create', Review::class);
         $genres = Genre::all();
         return view('games.create', compact('genres'));
     }

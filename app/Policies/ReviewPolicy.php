@@ -29,7 +29,8 @@ class ReviewPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+
+        return Review::where('user_id', $user->id)->count() >= 5 || $user->role == 1;
     }
 
     /**

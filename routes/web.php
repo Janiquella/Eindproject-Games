@@ -25,7 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/games/{game}/reviews', [\App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
-Route::patch('/games/{game}/hide', [GameController::class, 'hide'])->name('games.status');
+Route::middleware(['auth', \App\Http\Middleware\UserAdmin::class])->group(function () {
+    Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
+    Route::post('/admin/{game}', [GameController::class, 'hide'])->name('admin.status');
+    Route::delete('/admin/{game}', [\App\Http\Controllers\AdminController::class, 'destroy'])->name('admin.destroy');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

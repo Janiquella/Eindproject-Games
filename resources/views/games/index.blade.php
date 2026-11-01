@@ -1,13 +1,3 @@
-{{--<x-app-layout>--}}
-{{--    --}}{{--    <div>--}}
-{{--    --}}{{--        <div>--}}
-{{--    --}}{{--            @foreach($games as $game)--}}
-{{--                                    <x-game :game="$game" /> --}}
-{{--    --}}{{--            @endforeach--}}
-{{--    --}}{{--        </div>--}}
-{{--    --}}{{--    </div>--}}
-{{--</x-app-layout>--}}
-
 <x-layout title="Games">
     <h1>Games page</h1>
     {{--    @if()--}}
@@ -33,17 +23,17 @@
                 <div>{{$game->title}} || {{$game->genre->name}}</div>
                 <a href="{{route('games.show', $game)}}">Details</a>
 
-                @auth
-                    @if(auth()->user()->role ===1)
-                        <form action="{{ route('games.status', $game) }}" method="post">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="p-2 mt-3 bg-blue-400 text-white rounded">
-                                {{ $game->status ? 'Show' : 'Hide' }}
-                            </button>
-                        </form>
-                    @endif
-                @endauth
+                {{--                @auth--}}
+                {{--                    @if(auth()->user()->role ===1)--}}
+                {{--                        <form action="{{ route('games.status', $game) }}" method="post">--}}
+                {{--                            @csrf--}}
+                {{--                            @method('PATCH')--}}
+                {{--                            <button type="submit" class="p-2 mt-3 bg-blue-400 text-white rounded">--}}
+                {{--                                {{ $game->status ? 'Show' : 'Hide' }}--}}
+                {{--                            </button>--}}
+                {{--                        </form>--}}
+                {{--                    @endif--}}
+                {{--                @endauth--}}
             </section>
         @endforeach
     @endif
