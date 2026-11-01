@@ -18,7 +18,7 @@
                 <p>Rating: {{ $review->rating }}/5</p>
                 <p>{{ $review->review }}</p>
 
-                @if(auth()->check() && auth()->id() === $review->user_id)
+                @if(auth()->check() && (auth()->user()->role === 1 || auth()->id() === $review->user_id))
                     <form action="{{ route('reviews.destroy', $review) }}" method="post">
                         @csrf
                         @method('DELETE')

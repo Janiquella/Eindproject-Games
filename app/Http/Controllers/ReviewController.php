@@ -70,7 +70,10 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        if ($review->user_id !== auth()->id()) {
+        if (!auth()->check()) {
+            abort(403);
+        }
+        if (auth()->user()->role !== 1 && auth()->id() !== $review->user_id) {
             abort(403);
         }
         $review->delete();
