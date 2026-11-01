@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ReviewController;
@@ -27,7 +28,7 @@ Route::middleware('auth')->group(function () {
 });
 Route::middleware(['auth', \App\Http\Middleware\UserAdmin::class])->group(function () {
     Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
-    Route::post('/admin/{game}', [GameController::class, 'hide'])->name('admin.status');
+    Route::post('/admin/{game}', [AdminController::class, 'update'])->name('admin.status');
     Route::delete('/admin/{game}', [\App\Http\Controllers\AdminController::class, 'destroy'])->name('admin.destroy');
 });
 

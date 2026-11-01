@@ -26,6 +26,11 @@
 <body>
 @if (Route::has('login'))
     <nav class="flex items-center justify-end gap-4">
+        @auth
+            @if(auth()->user()->role === 1)
+                <a href="/admin" class="no-underline p-2">Admin</a>
+            @endif
+        @endauth
 
         <a href="/games" class="no-underline p-2">Games</a>
         @auth

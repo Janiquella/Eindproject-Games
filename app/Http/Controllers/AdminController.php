@@ -55,14 +55,18 @@ class AdminController extends Controller
         $game->status = !$game->status;
         $game->save();
 
-        return redirect()->route('games.index');
+        return redirect()->route('admin.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Game $game)
     {
-        //
+        if ($game->user_id != auth()->id()) {
+            abort(403);
+        }
+        $game->delete();
+        return redirect()->route('admin.index');
     }
 }
